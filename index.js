@@ -3,6 +3,7 @@ const app = express()
 const PORT = 8000;
 const path = require('path')
 const userRoute = require("./routes/userRoute")
+const blogRoute = require("./routes/blogRoute")
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 const { checkForAuthenticationCookie } = require('./middlewares/authentication');
@@ -23,6 +24,7 @@ app.get('/', (req, res) => {
     })
 })
 
-app.use('/users', userRoute)
+app.use('/users', userRoute);
+app.use('/blog', blogRoute);
 
 app.listen(PORT, () => console.log(`Server started at http://localhost:${PORT}`));
