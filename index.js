@@ -7,6 +7,7 @@ const blogRoute = require("./routes/blogRoute")
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 const { checkForAuthenticationCookie } = require('./middlewares/authentication');
+const Blog = require("./models/blog");
 
 mongoose
     .connect('mongodb://localhost:27017/blogify')
@@ -17,10 +18,13 @@ app.set("views", path.resolve("./views"))
 app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser());
 app.use(checkForAuthenticationCookie("token"))
+app.use(express.static(path.resolve('./public')))
 
-app.get('/', (req, res) => {
+app.get('/', async (req, res) => {
+    const allBlogs = await Blog.find({});
     res.render("home", {
         user: req.user,
+        blogs: allBlogs
     })
 })
 
